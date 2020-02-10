@@ -157,9 +157,14 @@ char *apint_format_as_hex(ApInt *ap) {
 //adds two apints together
 ApInt *apint_add(const ApInt *a, const ApInt *b) {
   //creates apint to be returned
+  if (apint_compare(a, b) < 0){
+    const ApInt *temp = a;
+    a = b;
+    b = temp;
+  }
   ApInt *add = malloc(sizeof(ApInt));
   //sets capacity equal to larger of two capacities
-  if (a->capacity > b->capacity){
+  if (a->capacity >= b->capacity){
     add->nums = malloc(sizeof(uint64_t)*a->capacity);
     add->capacity = a->capacity;
   }else{
@@ -171,7 +176,7 @@ ApInt *apint_add(const ApInt *a, const ApInt *b) {
   for (int i = add->capacity-1; i >= 0; i--){
     //checks if both apints are valid for a given index
     if (i < a->capacity && i < b->capacity){
-
+      
       //checks if there will be overflow
       if (a->nums[i] + b->nums[i] < a->nums[i]){
 	//checks if a new block has to be allocated

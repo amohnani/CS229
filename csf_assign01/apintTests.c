@@ -249,12 +249,17 @@ void testAdd(TestObjs *objs) {
 	apint_destroy(sum);
 	free(s);
 
+	sum = apint_add(objs->ap1, a);
+	s = apint_format_as_hex(sum);
+	ASSERT(0 == strcmp("100000000000000000000000000000000", s));
+	apint_destroy(sum);
+	free(s);
+
 	//again, checks carrying over multiple blocks
-	b = apint_create_from_hex("2");
+	b = apint_create_from_hex("11");
 	sum = apint_add(a, b);
 	s = apint_format_as_hex(sum);
-	ASSERT(apint_get_bits(sum, 0) == 1);
-	ASSERT(0 == strcmp("100000000000000000000000000000001", s));
+	ASSERT(0 == strcmp("100000000000000000000000000000010", s));
 	apint_destroy(a);
 	apint_destroy(b);
 	apint_destroy(sum);
