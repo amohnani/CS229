@@ -12,11 +12,8 @@ int main(int argc, char **argv) {
 		printf("Wrong number of arguments\n");
 		return 1;
 	}
+	//outputs result
 	long answer = eval(argv[1]);
-	if (answer != -1){
-	  printf("Result is: %ld\n", answer);
-	}else{
-	  return 1;
-	}
+	printf("Result is: %ld\n", answer);
 	return 0;
 }

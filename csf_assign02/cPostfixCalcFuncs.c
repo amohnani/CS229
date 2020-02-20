@@ -112,11 +112,11 @@ long eval(const char *expr){
     if (token == 0){
       if (intsover){
 	printf("Error: Invalid Expression.\n");
-	return -1;
+	exit(1);
       }
       if (pCount == 20){
 	printf("Error: Operand stack is too large.\n");
-	return -1;
+	exit(1);
       }
       expr = consumeInt(expr, &pVal);
       stackPush(stack, &pCount, pVal);
@@ -125,7 +125,7 @@ long eval(const char *expr){
       intsover = 1;
       if (pCount == 0 || pCount == 1){
 	printf("Error: Not enough operands on stack.\n");
-	return -1;
+	exit(1);
       }
       int a = stackPop(stack, &pCount);
       int b = stackPop(stack, &pCount);
@@ -141,13 +141,13 @@ long eval(const char *expr){
       expr = expr + 1;
     }else{
       printf("Error: String contains an invalid character.\n");
-      return -1;
+      exit(1);
     }
     //printf("%ld\n", stack[pCount-1]);
   }
   if (pCount != 1){
-    printf("Error: Malformed Expression\n");
-    return -1;
+    printf("Error: Invalid Expression.\n");
+    exit(1);
   }
   return stackPop(stack, &pCount);
 }

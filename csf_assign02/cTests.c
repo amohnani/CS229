@@ -117,6 +117,7 @@ void testStackPushPop(TestObjs *obj){
 }
 
 void testEval(TestObjs *obj){
+  
   char *c = "2 32 + ";
   long answer = eval(c);
   ASSERT(answer == 34L);
@@ -128,18 +129,28 @@ void testEval(TestObjs *obj){
   c = "7 2 -";
   answer = eval(c);
   ASSERT(answer == 5L);
-  
-  c = "10 2 -*";
-  answer = eval(c);
-  ASSERT(answer == -1L);
 
+  
   c = "2 3 4 5 +-* ";
   answer = eval(c);
   ASSERT(answer == -12L);
-
+  
+  expectedExit = 1;
+  c = "10 2 -*";
+  if (sigsetjmp(exitBuf, 1) == 0) {
+    answer = eval(c);
+    FAIL("With too many operators did not exit");
+  } else {
+    printf("Eval exited, good...");
+  }
+  
   c = "2 3 + 4";
-  answer = eval(c);
-  ASSERT(answer == -1L);
+  if (sigsetjmp(exitBuf, 1) == 0) {
+    answer = eval(c);
+    FAIL("With too many operands did not exit");
+  } else {
+    printf("Eval exited, good...");
+  }
 
 }
 
@@ -147,6 +158,8 @@ void testEval(TestObjs *obj){
 void testskipws(TestObjs *obj){
   char *temp = "     567";
   ASSERT(0 == strcmp("567", skipws(temp)));
+  temp = "8";
+  ASSERT(0 == strcmp("8", skipws(temp)));
   temp = "    ";
   ASSERT(0 == strcmp("",  skipws(temp)));
   temp = "    7";
