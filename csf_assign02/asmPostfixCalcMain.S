@@ -7,7 +7,7 @@
 
 mArgv1Msg: .string "argv[1] is %s\n"
 mResult:	.string "Result is: %ld\n"
-mBadArguments:	.string "Wrong number of arguments.\n"
+mBadArguments:	.string "Wrong number of arguments."
 	
 .section .text
 
@@ -31,14 +31,14 @@ main:
 	 * actual postfix calculator implementation.
 	 */
 	
-	//movq $mArgv1Msg, %rdi
-	cmpq $2, %rdi
-	je .LCalc
-	movq $mBadArguments, %rdi
-	call printf
-	movq $1, %rax
-	addq $8, %rsp
-	ret
+	
+	cmpq $2, %rdi //compares number of arguments
+	je .LCalc //if 2, sent to calculate answer
+	movq $mBadArguments, %rdi //otherwise, sets rdi to bad args string
+	call printf //prints bad args string
+	movq $1, %rax //moves 1 to rax
+	addq $8, %rsp //realigns stack
+	ret //returns 1 from main
 	
 .LCalc:
 	

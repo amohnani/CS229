@@ -36,7 +36,7 @@ eval:
 	movq %rdi, %r15 //r15 now stores string pointer
 	
 
-	movq $0, %rbp //stores intsover
+	//movq $0, %rbp //stores intsover
 
 	jmp .LCheck
 .LMainLoop:
@@ -55,16 +55,16 @@ eval:
 	cmpq $0, %r9 //checks if token type is 0
 
 	je .LTokenDigit //if equal to 0, jump to case digit
-	ja .LTokenOperand //if greater, jump to case operator
+	jg .LTokenOperand //if greater, jump to case operator
 	movq $eInvalidChar, %rdi //otherwise, set invalid char
 	jmp .LError //and call error
 	
 .LTokenDigit:
-	cmpq $1, %rbp //checks if intsover is false
+	/*cmpq $1, %rbp //checks if intsover is false
 	movq %rdi, %r10 //stores rdi in r10
 	movq $eInvalidExpression, %rdi //stores invalid expression in rdi
 	je .LError //if intsover is false, jumps to Error
-	movq %r10, %rdi //restores rdi
+	movq %r10, %rdi //restores rdi*/
 
 	cmpq $20, pCount //checks if operand stack has reached limit
 	movq %rdi, %r10 //stores rdi in r10
@@ -85,7 +85,7 @@ eval:
 
 
 .LTokenOperand:
-	movq $1, %rbp //sets intsover to true
+	//movq $1, %rbp //sets intsover to true
 	cmpq $1, pCount //checks how many operands are on stack
 	movq %rdi, %r10 //stores rdi in r10
 	movq $eNotEnoughOperands, %rdi //sets rdi to not enough operands

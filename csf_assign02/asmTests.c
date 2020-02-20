@@ -199,6 +199,7 @@ void testTokenType(TestObjs *obj){
   ASSERT(tokenType("*") == 3);
   ASSERT(tokenType("/ 0") == 4);
   ASSERT(tokenType(" + 0") == -1);
+  ASSERT(tokenType("$ + 0") == -1);
 }
 
 /*

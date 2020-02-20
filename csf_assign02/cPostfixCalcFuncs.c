@@ -101,34 +101,40 @@ long eval(const char *expr){
   long stack[20];
   long pCount = 0;
   long pVal = 0;
-  long intsover = 0;
+
+  //  long intsover = 0;
+  //continues while string still has more characters
   while (strlen(expr) > 0){
+    //removes whitespace and checks is string still has more characters
     expr = skipws(expr);
     if (strlen(expr) <= 0){
       break;
     }
     
     int token = tokenType(expr);
+    //case of integer
     if (token == 0){
-      if (intsover){
+      /*  if (intsover){
 	printf("Error: Invalid Expression.\n");
 	exit(1);
-      }
+	}*/
       if (pCount == 20){
 	printf("Error: Operand stack is too large.\n");
 	exit(1);
       }
+      //pushes next value onto stack
       expr = consumeInt(expr, &pVal);
       stackPush(stack, &pCount, pVal);
-      //printf("%ld\n", stack[0]);
     }else if (token > 0){
-      intsover = 1;
+      //intsover = 1;
       if (pCount == 0 || pCount == 1){
 	printf("Error: Not enough operands on stack.\n");
 	exit(1);
       }
+      //pops two values from stack
       int a = stackPop(stack, &pCount);
       int b = stackPop(stack, &pCount);
+      //checks the different operators
       if (token == 1){
 	stackPush(stack, &pCount, a + b);
       }else if (token == 2){
@@ -139,12 +145,13 @@ long eval(const char *expr){
 		stackPush(stack, &pCount, b/a);
       }
       expr = expr + 1;
+      //case of invalid character
     }else{
       printf("Error: String contains an invalid character.\n");
       exit(1);
     }
-    //printf("%ld\n", stack[pCount-1]);
   }
+  //confirms only one value is left on stack
   if (pCount != 1){
     printf("Error: Invalid Expression.\n");
     exit(1);
