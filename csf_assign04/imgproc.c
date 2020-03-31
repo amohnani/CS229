@@ -28,6 +28,7 @@ int main(int argc, char **argv) {
   struct Plugin plugins[5];
   loadPlugins(plugins);
   if (parseArguments(plugins, argc, argv) < 0) {
+    clear_plugins(plugins);
     error();
   }
   clear_plugins(plugins);
