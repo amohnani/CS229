@@ -1,0 +1,9 @@
+Best Cache Discussion:
+
+Based on the experiments I ran, the best cache for large-scale real programs used write-allocate, write-back, and fifo. Furthermore, I would use two or four-way set associative configurations with 128 or 256 blocks. I decided on this configuration by comparing the cycles and hit rates of various simulations.
+
+Between no-write-allocate and write-through and write-allocate and write-back and write-allocate and write-through, the combination of write-allocate and write-through consistently had lower cycles and a similar hit rate for both gcc.trace and swim.trace when keeping other parameters constant. For example, no-write-allocate and write-through had a cycle count around 23 million for ./csim 256 4 16 on gcc.trace, and write-allocate and write-through had a cycle count of 25 million. On the other hand, write-allocate and write-back had a cycle count of around 10 million, which is far superior to the other counts. Furthermore, write-back does not have any significant extra costs, and therefore is the best configuration.
+
+Then, between fifo and lru, lru requires a more sophisticated method of analysis that involves updating counters on every hit. In addition, for gcc.trace, lru resulted in a slightly higher hit rate (314185 vs 314171), but a much worse cycle count (11 million vs 10 million). Therefore, since lru is both more computationally intensive and has minimal to no benefits, fifo is a better configuration for a cache.
+
+Finally, for the size of the cache, depending on the cost of memory, either a 2-way or 4-way associative cache is best. 2-way associative caches have significant performance boosts ove 1-way, and 4-way caches have a fair performance boost. Therefore, a 2-way or 4-way associative cache is best. Regarding the number of sets, 256 sets have a fair performance boost over 128, and 128 have a massive performance boost over 64. Therefore, based on the cost of memory, 128 or 256 sets is best.
