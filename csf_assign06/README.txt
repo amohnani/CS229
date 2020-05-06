@@ -1,0 +1,2 @@
+Approach to thread synchronization
+To solve the problem of asyncronous data access and the potential for data races, I used a mutex_pthread_t. I initialized the mutex in the calc constructor, and I locked it whenever I entered eval expression, since I knew all of the functions had the potential to access the shared map. Then, I unlocked the mutex right before exiting the eval expr function. This ensured that only one thread changed the data in the map at a time.
