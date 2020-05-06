@@ -26,7 +26,9 @@ int main(int argc, char **argv) {
    
    while (keep_going) {
      int client_fd = Accept(server_fd, NULL, NULL);
-     
+     if (client_fd < 0) {
+       error("Error opening client connection.");
+     }
      struct ConnInfo *info = malloc(sizeof(struct ConnInfo));
      info->calc = calc;
      info->clientfd = client_fd;
